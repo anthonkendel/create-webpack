@@ -1,7 +1,7 @@
-import arg from "arg";
-import inquirer from "inquirer";
-import fs from "fs";
-import util from "util";
+import arg from 'arg';
+import inquirer from 'inquirer';
+import fs from 'fs';
+import util from 'util';
 
 const writeFile = util.promisify(fs.writeFile);
 
@@ -12,20 +12,20 @@ const writeFile = util.promisify(fs.writeFile);
 function parsArgsIntoOptions(args) {
   const parsedArgs = arg(
     {
-      "--help": Boolean,
-      "--plugin": Boolean,
-      "--loader": Boolean,
-      "--js": Boolean,
-      "--ts": Boolean,
+      '--help': Boolean,
+      '--plugin': Boolean,
+      '--loader': Boolean,
+      '--js': Boolean,
+      '--ts': Boolean,
     },
     { argv: args.slice(2) }
   );
 
   const options = {
-    isPlugin: parsedArgs["--plugin"] || false,
-    isLoader: parsedArgs["--loader"] || false,
-    isJs: parsedArgs["--js"] || false,
-    isTs: parsedArgs["--ts"] || false,
+    isPlugin: parsedArgs['--plugin'] || false,
+    isLoader: parsedArgs['--loader'] || false,
+    isJs: parsedArgs['--js'] || false,
+    isTs: parsedArgs['--ts'] || false,
   };
 
   return options;
@@ -38,49 +38,46 @@ function parsArgsIntoOptions(args) {
 async function promptForMissingOptions(options) {
   const questions = [];
 
-  if (
-    (options.isLoader && options.isPlugin) ||
-    (!options.isLoader && !options.isPlugin)
-  ) {
+  if ((options.isLoader && options.isPlugin) || (!options.isLoader && !options.isPlugin)) {
     questions.push({
-      type: "list",
-      name: "type",
-      message: "Please choose one type of Webpack extension:",
+      type: 'list',
+      name: 'type',
+      message: 'Please choose one type of Webpack extension:',
       choices: [
-        { name: "Loader", value: "loader" },
-        { name: "Plugin", value: "plugin" },
+        { name: 'Loader', value: 'loader' },
+        { name: 'Plugin', value: 'plugin' },
       ],
-      default: "Loader",
+      default: 'Loader',
     });
   }
 
   if ((options.isJs && options.isTs) || (!options.isJs && !options.isTs)) {
     questions.push({
-      type: "list",
-      name: "language",
-      message: "Please choose the language of the Webpack extension:",
+      type: 'list',
+      name: 'language',
+      message: 'Please choose the language of the Webpack extension:',
       choices: [
-        { name: "JavaScript", value: "js" },
-        { name: "TypeScript", value: "ts" },
+        { name: 'JavaScript', value: 'js' },
+        { name: 'TypeScript', value: 'ts' },
       ],
-      default: "js",
+      default: 'js',
     });
   }
 
   const answers = await inquirer.prompt(questions);
 
-  if (answers.type === "loader") {
+  if (answers.type === 'loader') {
     options.isLoader = true;
     options.isPlugin = false;
-  } else if (answers.type === "plugin") {
+  } else if (answers.type === 'plugin') {
     options.isLoader = false;
     options.isPlugin = true;
   }
 
-  if (answers.language === "js") {
+  if (answers.language === 'js') {
     options.isJs = true;
     options.isTs = false;
-  } else if (answers.language === "ts") {
+  } else if (answers.language === 'ts') {
     options.isJs = false;
     options.isTs = true;
   }
@@ -94,5 +91,5 @@ async function promptForMissingOptions(options) {
 export async function cli(args) {
   let options = parsArgsIntoOptions(args);
   options = await promptForMissingOptions(options);
-  await writeFile("options.json", JSON.stringify(options, null, 2));
+  await writeFile('options.json', JSON.stringify(options, null, 2));
 }
