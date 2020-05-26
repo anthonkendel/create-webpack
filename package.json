@@ -1,0 +1,21 @@
+{
+  "name": "create-webpack",
+  "version": "0.1.0",
+  "description": "A CLI to create new Webpack plugins and loaders",
+  "main": "src/main.js",
+  "bin": "./bin/create-webpack.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "webpack",
+    "cli"
+  ],
+  "author": "Anthon <anthon.kendel@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "arg": "^4.1.3",
+    "esm": "^3.2.25",
+    "inquirer": "^7.1.0"
+  }
+}
