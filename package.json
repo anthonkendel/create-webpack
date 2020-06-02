@@ -18,7 +18,7 @@
   ],
   "author": "Anthon <anthon.kendel@gmail.com>",
   "license": "MIT",
-  "peerDepenencies": {
+  "peerDependencies": {
     "schema-utils": "^2.7.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11"
