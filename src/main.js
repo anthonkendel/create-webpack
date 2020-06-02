@@ -2,8 +2,11 @@ import arg from 'arg';
 import inquirer from 'inquirer';
 import fs from 'fs';
 import util from 'util';
+import path from 'path';
+import spawn from 'cross-spawn';
 
 const writeFile = util.promisify(fs.writeFile);
+const copyFile = util.promisify(fs.copyFile);
 
 /**
  * @param {string[]} args
@@ -85,6 +88,29 @@ async function promptForMissingOptions(options) {
   return { ...options };
 }
 
+let i = 4;
+/**
+ *
+ * @param {string} message
+ */
+function showLoader(ui, message) {
+  const loader = ['/', '|', '\\', '-'];
+  setInterval(() => {
+    ui.updateBottomBar(`${loader[i++ % 4]} ${message}`);
+  }, 400);
+}
+
+/**
+ * @param {string} templateFileName
+ * @param {string} outputFileName
+ */
+async function copyFileFromTemplates(templateFileName, outputFileName) {
+  const source = path.resolve(__dirname, '..', `templates/${templateFileName}`);
+  const destination = `${process.cwd()}/${outputFileName}`;
+
+  await copyFile(source, destination);
+}
+
 /**
  * @param {string[]} args
  */
@@ -92,4 +118,29 @@ export async function cli(args) {
   let options = parsArgsIntoOptions(args);
   options = await promptForMissingOptions(options);
   await writeFile('options.json', JSON.stringify(options, null, 2));
+
+  const ui = new inquirer.ui.BottomBar();
+  showLoader(ui, 'Installing dependencies...\n');
+  const npm = spawn('npm', ['install', '--save', 'webpack', 'webpack-cli', 'schema-utils', 'loader-utils']);
+
+  npm.on('close', async () => {
+    showLoader('Setting up files...');
+
+    if (options.isLoader) {
+      if (options.isJs) {
+        await copyFileFromTemplates('loader-template.js', 'loader.js');
+      } else if (options.isTs) {
+      }
+    }
+
+    if (options.isPlugin) {
+      if (options.isJs) {
+        await copyFileFromTemplates('plugin-template.js', 'plugin.js');
+      } else if (options.isTs) {
+      }
+    }
+
+    ui.updateBottomBar('Done!');
+    process.exit();
+  });
 }
