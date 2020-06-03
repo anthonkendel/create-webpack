@@ -5,7 +5,6 @@ import util from 'util';
 import path from 'path';
 import spawn from 'cross-spawn';
 
-const writeFile = util.promisify(fs.writeFile);
 const copyFile = util.promisify(fs.copyFile);
 
 /**
@@ -15,7 +14,6 @@ const copyFile = util.promisify(fs.copyFile);
 function parsArgsIntoOptions(args) {
   const parsedArgs = arg(
     {
-      '--help': Boolean,
       '--plugin': Boolean,
       '--loader': Boolean,
       '--js': Boolean,
@@ -45,7 +43,7 @@ async function promptForMissingOptions(options) {
     questions.push({
       type: 'list',
       name: 'type',
-      message: 'Please choose one type of Webpack extension:',
+      message: 'Please choose the Webpack extension to create:',
       choices: [
         { name: 'Loader', value: 'loader' },
         { name: 'Plugin', value: 'plugin' },
@@ -69,34 +67,23 @@ async function promptForMissingOptions(options) {
 
   const answers = await inquirer.prompt(questions);
 
-  if (answers.type === 'loader') {
-    options.isLoader = true;
-    options.isPlugin = false;
-  } else if (answers.type === 'plugin') {
-    options.isLoader = false;
-    options.isPlugin = true;
-  }
+  const optionsFromAnswers = { ...options };
+  optionsFromAnswers.isLoader = options.isLoader || answers.type === 'loader';
+  optionsFromAnswers.isPlugin = options.isPlugin || answers.type === 'plugin';
+  optionsFromAnswers.isJs = options.isJs || answers.language === 'js';
+  optionsFromAnswers.isTs = options.isTs || answers.language === 'ts';
 
-  if (answers.language === 'js') {
-    options.isJs = true;
-    options.isTs = false;
-  } else if (answers.language === 'ts') {
-    options.isJs = false;
-    options.isTs = true;
-  }
-
-  return { ...options };
+  return { ...options, ...optionsFromAnswers };
 }
 
-let i = 4;
 /**
- *
  * @param {string} message
  */
 function showLoader(ui, message) {
   const loader = ['/', '|', '\\', '-'];
   setInterval(() => {
-    ui.updateBottomBar(`${loader[i++ % 4]} ${message}`);
+    let index = 4;
+    ui.updateBottomBar(`${loader[index++ % 4]} ${message}`);
   }, 400);
 }
 
@@ -117,11 +104,12 @@ async function copyFileFromTemplates(templateFileName, outputFileName) {
 export async function cli(args) {
   let options = parsArgsIntoOptions(args);
   options = await promptForMissingOptions(options);
-  await writeFile('options.json', JSON.stringify(options, null, 2));
+
+  console.debug('Options:', options);
 
   const ui = new inquirer.ui.BottomBar();
   showLoader(ui, 'Installing dependencies...\n');
-  const npm = spawn('npm', ['install', '--save', 'webpack', 'webpack-cli', 'schema-utils', 'loader-utils']);
+  const npm = spawn('npm', ['install', '--save-dev', 'webpack', 'webpack-cli', 'schema-utils', 'loader-utils']);
 
   npm.on('close', async () => {
     showLoader('Setting up files...');
