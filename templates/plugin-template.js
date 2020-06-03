@@ -1,4 +1,4 @@
-/** @typedef {import("webpack/lib/Compiler")} WebpackCompiler */
+/** @typedef {import("webpack/lib/Compiler")} Compiler */
 
 const validateOptions = require('schema-utils');
 
@@ -9,11 +9,11 @@ const schema = {
 
 class Plugin {
   constructor(options = {}) {
-    validateOptions(schema, options, 'Plugin');
+    validateOptions(schema, options, { name: 'Plugin' });
   }
 
   /**
-   * @param {WebpackCompiler} compiler
+   * @param {Compiler} compiler
    */
   apply(compiler) {}
 }

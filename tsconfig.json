@@ -1,0 +1,13 @@
+{
+  "include": ["templates/**/*"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "declaration": true,
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}

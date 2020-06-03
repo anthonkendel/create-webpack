@@ -76,14 +76,14 @@ async function promptForMissingOptions(options) {
   return { ...options, ...optionsFromAnswers };
 }
 
+let loaderIndex = 4;
 /**
  * @param {string} message
  */
 function showLoader(ui, message) {
   const loader = ['/', '|', '\\', '-'];
   setInterval(() => {
-    let index = 4;
-    ui.updateBottomBar(`${loader[index++ % 4]} ${message}`);
+    ui.updateBottomBar(`${loader[loaderIndex++ % 4]} ${message}`);
   }, 400);
 }
 
@@ -109,7 +109,14 @@ export async function cli(args) {
 
   const ui = new inquirer.ui.BottomBar();
   showLoader(ui, 'Installing dependencies...\n');
-  const npm = spawn('npm', ['install', '--save-dev', 'webpack', 'webpack-cli', 'schema-utils', 'loader-utils']);
+
+  const dependenciesToInstall = ['loader-utils', 'schema-utils', 'webpack', 'webpack-cli'];
+  if (options.isTs) {
+    dependenciesToInstall.push('@types/loader-utils');
+    dependenciesToInstall.push('@types/schema-utils');
+    dependenciesToInstall.push('@types/webpack');
+  }
+  const npm = spawn('npm', ['install', '--save-dev', ...dependenciesToInstall]);
 
   npm.on('close', async () => {
     showLoader('Setting up files...');
@@ -118,6 +125,7 @@ export async function cli(args) {
       if (options.isJs) {
         await copyFileFromTemplates('loader-template.js', 'loader.js');
       } else if (options.isTs) {
+        await copyFileFromTemplates('loader-template.ts', 'loader.ts');
       }
     }
 
@@ -125,6 +133,7 @@ export async function cli(args) {
       if (options.isJs) {
         await copyFileFromTemplates('plugin-template.js', 'plugin.js');
       } else if (options.isTs) {
+        await copyFileFromTemplates('plugin-template.ts', 'plugin.ts');
       }
     }
 

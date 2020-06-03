@@ -8,11 +8,14 @@ const schema = {
 
 /**
  * @param {string} source
+ * @returns {string}
  */
-export default function (source) {
+function loader(source) {
   const options = getOptions(this);
 
-  validateOptions(schema, options, 'Loader');
+  validateOptions(schema, options, { name: 'Loader' });
 
   return `module.exports = {};`;
 }
+
+module.exports = loader;
