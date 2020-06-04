@@ -1,5 +1,5 @@
 {
-  "name": "create-webpack",
+  "name": "new-webpack",
   "version": "0.1.0",
   "description": "A CLI to create new Webpack plugins and loaders",
   "main": "src/main.js",
@@ -14,7 +14,11 @@
   },
   "keywords": [
     "webpack",
-    "cli"
+    "cli",
+    "typescript",
+    "javascript",
+    "plugin",
+    "loader"
   ],
   "author": "Anthon <anthon.kendel@gmail.com>",
   "license": "MIT",
