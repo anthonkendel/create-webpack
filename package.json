@@ -1,6 +1,6 @@
 {
   "name": "new-webpack",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A CLI to create new Webpack plugins and loaders",
   "main": "src/main.js",
   "bin": "./bin/create-webpack.js",
