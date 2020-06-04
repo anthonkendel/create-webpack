@@ -4,6 +4,10 @@
   "description": "A CLI to create new Webpack plugins and loaders",
   "main": "src/main.js",
   "bin": "./bin/create-webpack.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anthonkendel/new-webpack.git"
+  },
   "scripts": {
     "prettier:check": "prettier --check .",
     "prettier:write": "prettier --write .",
