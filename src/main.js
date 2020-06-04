@@ -6,6 +6,7 @@ import path from 'path';
 import spawn from 'cross-spawn';
 
 const copyFile = util.promisify(fs.copyFile);
+const ui = new inquirer.ui.BottomBar();
 
 /**
  * @param {string[]} args
@@ -80,7 +81,7 @@ let loaderIndex = 4;
 /**
  * @param {string} message
  */
-function showLoader(ui, message) {
+function showLoader(message) {
   const loader = ['/', '|', '\\', '-'];
   setInterval(() => {
     ui.updateBottomBar(`${loader[loaderIndex++ % 4]} ${message}`);
@@ -98,6 +99,34 @@ async function copyFileFromTemplates(templateFileName, outputFileName) {
   await copyFile(source, destination);
 }
 
+async function onCloseNpmInstall(options) {
+  showLoader('Setting up files...\n');
+
+  if (options.isLoader) {
+    if (options.isJs) {
+      await copyFileFromTemplates('loader-template.js', 'loader.js');
+    } else if (options.isTs) {
+      await copyFileFromTemplates('loader-template.ts', 'loader.ts');
+    }
+  }
+
+  if (options.isPlugin) {
+    if (options.isJs) {
+      await copyFileFromTemplates('plugin-template.js', 'plugin.js');
+    } else if (options.isTs) {
+      await copyFileFromTemplates('plugin-template.ts', 'plugin.ts');
+    }
+  }
+
+  ui.updateBottomBar('Done!\n');
+  process.exit();
+}
+
+function onErrorNpmInstall() {
+  ui.updateBottomBar('Something went wrong...\nExiting!\n');
+  process.exit(-1);
+}
+
 /**
  * @param {string[]} args
  */
@@ -105,10 +134,7 @@ export async function cli(args) {
   let options = parsArgsIntoOptions(args);
   options = await promptForMissingOptions(options);
 
-  console.debug('Options:', options);
-
-  const ui = new inquirer.ui.BottomBar();
-  showLoader(ui, 'Installing dependencies...\n');
+  showLoader('Installing dependencies...\n');
 
   const dependenciesToInstall = ['loader-utils', 'schema-utils', 'webpack', 'webpack-cli'];
   if (options.isTs) {
@@ -118,26 +144,6 @@ export async function cli(args) {
   }
   const npm = spawn('npm', ['install', '--save-dev', ...dependenciesToInstall]);
 
-  npm.on('close', async () => {
-    showLoader('Setting up files...');
-
-    if (options.isLoader) {
-      if (options.isJs) {
-        await copyFileFromTemplates('loader-template.js', 'loader.js');
-      } else if (options.isTs) {
-        await copyFileFromTemplates('loader-template.ts', 'loader.ts');
-      }
-    }
-
-    if (options.isPlugin) {
-      if (options.isJs) {
-        await copyFileFromTemplates('plugin-template.js', 'plugin.js');
-      } else if (options.isTs) {
-        await copyFileFromTemplates('plugin-template.ts', 'plugin.ts');
-      }
-    }
-
-    ui.updateBottomBar('Done!');
-    process.exit();
-  });
+  npm.on('close', () => onCloseNpmInstall(options));
+  npm.on('error', onErrorNpmInstall);
 }
