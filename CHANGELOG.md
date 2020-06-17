@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/anthonkendel/new-webpack/compare/v1.0.1...v1.0.2) (2020-06-17)
+
+
+### Bug Fixes
+
+* remove leftovers from old package name ([185a555](https://github.com/anthonkendel/new-webpack/commit/185a555a772d59b2ca22f74e9dbab4044723ee12))
+
 ## [1.0.1](https://github.com/anthonkendel/new-webpack/compare/v1.0.0...v1.0.1) (2020-06-15)
 
 
