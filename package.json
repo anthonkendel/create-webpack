@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "A CLI to create new Webpack plugins and loaders",
   "main": "src/main.js",
-  "bin": "./bin/create-webpack.js",
+  "bin": "./bin/new-webpack.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/anthonkendel/new-webpack.git"

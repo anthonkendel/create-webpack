@@ -27,7 +27,7 @@ npx new-webpack
 ## Usage
 
 ```bash
-npx create-webpack <args>
+npx new-webpack <args>
 ```
 
 The following arguments are available
