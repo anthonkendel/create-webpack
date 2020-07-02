@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/anthonkendel/new-webpack/compare/v1.0.2...v1.0.3) (2020-07-02)
+
+
+### Bug Fixes
+
+* **deps:** update dependency inquirer to v7.3.0 ([ab54215](https://github.com/anthonkendel/new-webpack/commit/ab5421536d869d915e350735f63ee86e2a6e22ca))
+
 ## [1.0.2](https://github.com/anthonkendel/new-webpack/compare/v1.0.1...v1.0.2) (2020-06-17)
 
 
