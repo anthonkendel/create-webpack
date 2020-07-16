@@ -5,7 +5,6 @@ A CLI to create new Webpack plugins and loaders
 [![latest git version](https://img.shields.io/github/v/tag/anthonkendel/new-webpack?label=version)](https://github.com/anthonkendel/new-webpack)
 [![latest npm version](https://img.shields.io/npm/v/new-webpack)](https://www.npmjs.com/package/new-webpack)
 [![license](https://img.shields.io/github/license/anthonkendel/new-webpack)](https://github.com/anthonkendel/new-webpack/blob/master/LICENSE)
-[![Actions](https://github.com/anthonkendel/new-webpack/workflows/Actions/badge.svg)](https://github.com/anthonkendel/new-webpack/actions)
 
 ## Installation
 
