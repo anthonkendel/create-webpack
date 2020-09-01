@@ -42,10 +42,10 @@
     "inquirer": "7.3.3"
   },
   "devDependencies": {
-    "@arbetsmyra/commitlint-config": "^2.0.0",
+    "@arbetsmyra/commitlint-config": "2.0.0",
     "@arbetsmyra/prettier-config": "1.2.0",
     "@arbetsmyra/semantic-release-config": "1.0.5",
-    "@commitlint/cli": "^9.1.2",
+    "@commitlint/cli": "9.1.2",
     "@types/loader-utils": "2.0.1",
     "@types/schema-utils": "2.4.0",
     "@types/webpack": "4.41.21",
