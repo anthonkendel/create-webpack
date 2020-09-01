@@ -1,3 +1,10 @@
+## [1.0.7](https://github.com/anthonkendel/new-webpack/compare/v1.0.6...v1.0.7) (2020-09-01)
+
+
+### Bug Fixes
+
+* **deps:** npm audit fix ([717feda](https://github.com/anthonkendel/new-webpack/commit/717feda6460b5449a7074fe824d78470f734857f))
+
 ## [1.0.6](https://github.com/anthonkendel/new-webpack/compare/v1.0.5...v1.0.6) (2020-07-23)
 
 
