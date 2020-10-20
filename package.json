@@ -29,7 +29,7 @@
   "optionalDependencies": {
     "@types/loader-utils": "2.0.1",
     "@types/schema-utils": "2.4.0",
-    "@types/webpack": "4.41.22",
+    "@types/webpack": "4.41.23",
     "loader-utils": "2.0.0",
     "schema-utils": "2.7.1",
     "webpack": "4.44.2",
@@ -48,7 +48,7 @@
     "@commitlint/cli": "11.0.0",
     "@types/loader-utils": "2.0.1",
     "@types/schema-utils": "2.4.0",
-    "@types/webpack": "4.41.22",
+    "@types/webpack": "4.41.23",
     "husky": "4.3.0",
     "loader-utils": "2.0.0",
     "prettier": "2.1.2",
