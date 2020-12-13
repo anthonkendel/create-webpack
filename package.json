@@ -49,7 +49,7 @@
     "@types/loader-utils": "2.0.1",
     "@types/schema-utils": "2.4.0",
     "@types/webpack": "4.41.25",
-    "husky": "4.3.5",
+    "husky": "4.3.6",
     "loader-utils": "2.0.0",
     "prettier": "2.2.1",
     "schema-utils": "2.7.1",
